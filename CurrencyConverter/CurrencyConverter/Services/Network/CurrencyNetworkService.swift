@@ -9,7 +9,7 @@ import Foundation
 
 protocol CurrencyNetworkServiceProtocol {
     func getLatest(by currency: String) async throws -> LatestResponse
-    func getPair(with currencies: (String, String)) async throws -> PairResponce
+    func getPair(with currencies: (String, String), amount: Float) async throws -> PairResponse
 }
 
 struct CurrencyNetworkService: HTTPClient, CurrencyNetworkServiceProtocol {
@@ -30,10 +30,10 @@ struct CurrencyNetworkService: HTTPClient, CurrencyNetworkServiceProtocol {
         }
     }
     
-    func getPair(with currencies: (String, String)) async throws -> PairResponce {
+    func getPair(with currencies: (String, String), amount: Float) async throws -> PairResponse {
         do {
             return try await sendRequest(
-                endpoint: CurrencyEndpoint.getPair(currencies), decoder: decoder
+                endpoint: CurrencyEndpoint.getPair(currencies, amount: amount), decoder: decoder
             )
         } catch {
             throw error

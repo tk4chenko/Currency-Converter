@@ -16,11 +16,10 @@ class Bid: Object {
     @Persisted var toAmount: Float = 0.0
     @Persisted var isOpen: Bool = false
     
-    convenience init(fromCode: String, toCode: String, fromAmount: Float, toAmmount: Float) {
+    convenience init(fromCode: String, toCode: String, fromAmount: Float) {
         self.init()
         self.fromCode = fromCode
         self.toCode = toCode
         self.fromAmount = fromAmount
-        self.toAmount = toAmmount
     }
 }

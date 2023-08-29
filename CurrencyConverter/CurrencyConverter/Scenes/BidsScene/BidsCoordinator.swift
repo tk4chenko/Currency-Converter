@@ -35,10 +35,13 @@ class BidsCoordinator: Coordinator {
     }
     
     private func openAddBidCurrencyController() {
-        let viewModel = AddBidCurrencyViewModel(realmManager: RealmManager())
+        let viewModel = AddBidCurrencyViewModel(realmManager: RealmManager(), networkServise: CurrencyNetworkService())
         let viewController = AddBidCurrencyViewController(viewModel: viewModel)
         viewController.openSelectedCurrencyController = { [weak self] currency in
             self?.openSelectedCurrencyController(with: currency)
+        }
+        viewController.backToPrevious = { [weak self] in
+            self?.popViewController()
         }
         viewController.addNavItemTitle(text: "Add Bid", font: .montserratSemibold, fontSize: 17)
         viewController.navigationItem.backButtonTitle = ""
@@ -55,6 +58,10 @@ class BidsCoordinator: Coordinator {
         }
         addChildCoordinator(coordinator)
         coordinator.start()
+    }
+    
+    func popViewController() {
+        navigationController?.popViewController(animated: true)
     }
     
     private func popToAddOwnedCurrencyController(with currency: Currency) {

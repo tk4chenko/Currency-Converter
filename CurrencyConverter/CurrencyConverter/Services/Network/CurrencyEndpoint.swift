@@ -9,7 +9,7 @@ import Foundation
 
 enum CurrencyEndpoint {
     case getLatest(_ currency: String)
-    case getPair(_ currencies: (String, String))
+    case getPair(_ currencies: (String, String), amount: Float)
 }
 
 extension CurrencyEndpoint: Endpoint {
@@ -20,8 +20,8 @@ extension CurrencyEndpoint: Endpoint {
         switch self {
         case .getLatest(let currency):
             return "/latest/\(currency)"
-        case .getPair(let currencies):
-            return "/pair/\(currencies.0)/\(currencies.1)"
+        case .getPair(let currencies, let amount):
+            return "/pair/\(currencies.0)/\(currencies.1)/\(amount)"
         }
             
     }
@@ -29,7 +29,7 @@ extension CurrencyEndpoint: Endpoint {
         switch self {
         case .getLatest(_):
             return .get
-        case .getPair((_, _)):
+        case .getPair(_, _):
             return .get
         }
     }

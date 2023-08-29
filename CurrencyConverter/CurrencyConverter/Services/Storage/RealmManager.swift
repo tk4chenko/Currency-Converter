@@ -12,7 +12,6 @@ protocol RealmManagerProtocol {
     func saveModel<T: Object>(model: T)
     func deleteModel<T: Object>(model: T)
     func loadModels<T: Object>(completion: @escaping ([T]) -> Void)
-    func deleteAll()
 }
 
 final class RealmManager: RealmManagerProtocol {
@@ -39,19 +38,6 @@ final class RealmManager: RealmManagerProtocol {
         DispatchQueue.main.async {
             let realm = try! Realm()
             completion(Array(realm.objects(T.self)))
-        }
-    }
-    
-    func deleteAll() {
-        DispatchQueue.main.async {
-            do {
-                let realm = try Realm()
-                try realm.write {
-                    realm.deleteAll()
-                }
-            } catch let error {
-                print("Error deleting all models: \(error)")
-            }
         }
     }
 }

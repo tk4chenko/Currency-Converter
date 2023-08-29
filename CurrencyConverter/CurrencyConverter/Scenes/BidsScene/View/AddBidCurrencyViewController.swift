@@ -14,6 +14,7 @@ enum Direction {
 class AddBidCurrencyViewController: UIViewController {
     
     var openSelectedCurrencyController: ((Currency?)->Void)?
+    var backToPrevious: (()->Void)?
     
     private let viewModel: AddBidCurrencyViewModel
     
@@ -115,9 +116,11 @@ class AddBidCurrencyViewController: UIViewController {
     }
     
     @objc private func addButtonPressed() {
-        print("Pressed")
-        let bid = Bid(fromCode: "EUR", toCode: "USD", fromAmount: 100, toAmmount: 200)
-        viewModel.saveBid(bid)
+        if let fromCurrency = currency.0, let toCurrency = currency.1, let numberedText = Float(ownedValueTextField.text ?? "") {
+            let bid = Bid(fromCode: fromCurrency.currencyCode, toCode: toCurrency.currencyCode, fromAmount: numberedText)
+            viewModel.saveBid(bid)
+            backToPrevious?()
+        }
     }
     
     @objc private func selectCountryCurrencyPressed(_ sender: UITapGestureRecognizer) {

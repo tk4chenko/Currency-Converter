@@ -12,7 +12,7 @@
 		4E5D88882A9DEA9000ECCE43 /* Bid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5D88872A9DEA9000ECCE43 /* Bid.swift */; };
 		4E5D888A2A9E0CCA00ECCE43 /* AddBidCurrencyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5D88892A9E0CCA00ECCE43 /* AddBidCurrencyViewModel.swift */; };
 		4E6164DB2A9747DE009D13EA /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6164DA2A9747DE009D13EA /* Currency.swift */; };
-		4E6164DE2A974825009D13EA /* PairResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6164DD2A974825009D13EA /* PairResponce.swift */; };
+		4E6164DE2A974825009D13EA /* PairResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6164DD2A974825009D13EA /* PairResponse.swift */; };
 		4E6164E22A97626E009D13EA /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6164E12A97626E009D13EA /* UIViewController+Extension.swift */; };
 		4E6164E62A97656A009D13EA /* SelectedCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6164E52A97656A009D13EA /* SelectedCurrencyCell.swift */; };
 		4E61650C2A978C18009D13EA /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E61650B2A978C18009D13EA /* ErrorView.swift */; };
@@ -99,7 +99,7 @@
 		4E5D88872A9DEA9000ECCE43 /* Bid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bid.swift; sourceTree = "<group>"; };
 		4E5D88892A9E0CCA00ECCE43 /* AddBidCurrencyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBidCurrencyViewModel.swift; sourceTree = "<group>"; };
 		4E6164DA2A9747DE009D13EA /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
-		4E6164DD2A974825009D13EA /* PairResponce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairResponce.swift; sourceTree = "<group>"; };
+		4E6164DD2A974825009D13EA /* PairResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairResponse.swift; sourceTree = "<group>"; };
 		4E6164E12A97626E009D13EA /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		4E6164E52A97656A009D13EA /* SelectedCurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCurrencyCell.swift; sourceTree = "<group>"; };
 		4E61650B2A978C18009D13EA /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@
 		4E6164DC2A97481C009D13EA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4E6164DD2A974825009D13EA /* PairResponce.swift */,
+				4E6164DD2A974825009D13EA /* PairResponse.swift */,
 				4E5D88872A9DEA9000ECCE43 /* Bid.swift */,
 			);
 			path = Model;
@@ -774,7 +774,7 @@
 				4E8F280B2A966762000CDD11 /* TabBarController.swift in Sources */,
 				4E8F27E52A9664A0000CDD11 /* AppDelegate.swift in Sources */,
 				4E8F283F2A967767000CDD11 /* UILabel+Extension.swift in Sources */,
-				4E6164DE2A974825009D13EA /* PairResponce.swift in Sources */,
+				4E6164DE2A974825009D13EA /* PairResponse.swift in Sources */,
 				4E8F283D2A967728000CDD11 /* UIImageView+Extension.swift in Sources */,
 				4E8F27E72A9664A0000CDD11 /* SceneDelegate.swift in Sources */,
 				4E8F28352A96759C000CDD11 /* HTTPClient.swift in Sources */,

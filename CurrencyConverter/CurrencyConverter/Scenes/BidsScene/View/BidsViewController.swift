@@ -19,6 +19,7 @@ class BidsViewController: UIViewController {
         $0.rowHeight = 146
         $0.backgroundColor = .clear
         $0.dataSource = self
+        $0.delegate = self
         $0.register(BidsItemCell.self, forCellReuseIdentifier: BidsItemCell.identifier)
         return $0
     }(UITableView())
@@ -27,7 +28,7 @@ class BidsViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.style = .medium
         $0.color = .gray
-//        $0.startAnimating()
+        $0.startAnimating()
         return $0
     }(UIActivityIndicatorView())
     
@@ -47,11 +48,15 @@ class BidsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.loadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupBindigs()
-        viewModel.loadData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -71,7 +76,11 @@ class BidsViewController: UIViewController {
     private func setupBindigs() {
         viewModel.bids.bind { bids in
             if bids != nil {
-                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.loadingIndicator.stopAnimating()
+                    self.loadingIndicator.removeFromSuperview()
+                    self.tableView.reloadData()
+                }
             }
         }
     }
@@ -112,10 +121,25 @@ extension BidsViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BidsItemCell.identifier) as? BidsItemCell else { return UITableViewCell() }
         cell.selectionStyle = .none
         if let bid = viewModel.bids.value?[indexPath.row] {
-            print(bid)
             cell.setupCell(with: bid)
         }
         return cell
+    }
+    
+
+}
+
+extension BidsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
+            
+            guard let bid = self.viewModel.bids.value?[indexPath.row] else { return }
+            self.viewModel.deleteBid(bid)
+                tableView.reloadData()
+            }
+        
+            let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+            return configuration
     }
 }
 

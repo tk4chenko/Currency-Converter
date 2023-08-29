@@ -9,7 +9,7 @@ import Foundation
 
 class BidsViewModel {
     
-    var bids: Observable<[Bid]?> = Observable(nil)
+    let bids: Observable<[Bid]?> = Observable(nil)
     
     private let realmManager: RealmManagerProtocol
     
@@ -18,10 +18,13 @@ class BidsViewModel {
     }
     
     func loadData() {
-        realmManager.loadModels { bids in
-//            print(bids)
-            self.bids.value = bids
+        realmManager.loadModels { [weak self] bids in
+            self?.bids.value = bids.reversed()
         }
+    }
+    
+    func deleteBid(_ bid: Bid) {
+        realmManager.deleteModel(model: bid)
     }
 
 }
