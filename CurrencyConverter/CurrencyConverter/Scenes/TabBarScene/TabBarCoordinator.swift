@@ -10,7 +10,6 @@ import UIKit
 
 protocol TabBarCoordinatorProtocol: Coordinator {
     var tabBarController: UITabBarController { get }
-    func addFirstPage()
 }
 
 class TabBarCoordinator: TabBarCoordinatorProtocol {
@@ -26,20 +25,36 @@ class TabBarCoordinator: TabBarCoordinatorProtocol {
     }
     
     func start() {
-        addFirstPage()
-        addSecondPage()
+        addCurrencyListPage()
+        addWalletPage()
+        addBidsPage()
+        addSettingsPage()
     }
     
-    func addFirstPage() {
+    func addCurrencyListPage() {
         let coordinator = CurrencyListCoordinator(navigationController: UINavigationController())
         tabBarController.viewControllers?.append(coordinator.navigationController)
         addChildCoordinator(coordinator)
         coordinator.start()
     }
     
-    func addSecondPage() {
+    func addSettingsPage() {
         let coordinator = SettingsCoordinator(navigationController: UINavigationController())
         tabBarController.viewControllers?.append(coordinator.navigationController)
+        addChildCoordinator(coordinator)
+        coordinator.start()
+    }
+    
+    func addWalletPage() {
+        let coordinator = WalletCoordinator(navigationController: UINavigationController())
+        tabBarController.viewControllers?.append(coordinator.navigationController ?? UINavigationController())
+        addChildCoordinator(coordinator)
+        coordinator.start()
+    }
+    
+    func addBidsPage() {
+        let coordinator = BidsCoordinator(navigationController: UINavigationController())
+        tabBarController.viewControllers?.append(coordinator.navigationController ?? UINavigationController())
         addChildCoordinator(coordinator)
         coordinator.start()
     }

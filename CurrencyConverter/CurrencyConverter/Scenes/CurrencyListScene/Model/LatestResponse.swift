@@ -14,10 +14,10 @@ struct LatestResponse: Codable {
     let timeLastUpdateUTC: String?
     let timeNextUpdateUnix: Int?
     let timeNextUpdateUTC, baseCode: String?
-    let conversionRates: [String: Double]?
+    let conversionRates: [String: Float]?
 }
 
-struct CurrencyWithCountry {
-    let currency: Currency
-    let country: String?
+struct LatestCurrency {
+    let currencyCode, currencyName, currencyCountry, baseCode: String
+    let amount: Float
 }

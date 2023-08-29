@@ -9,26 +9,24 @@ import Foundation
 
 class SettingsViewModel {
     
-    let currencyList = CurrencyManager.currencyList
+    let currencyManager: CurrencyManagerProtocol
     
-    var selectedCurrency: Currency?
+    var currencyList: [Currency] {
+        currencyManager.currencyList
+    }
     
-    private var currencyCode = UserDefaults.standard.string(forKey: Constants.UserDefaults.selectedCurrency) {
-        didSet {
-            UserDefaults.standard.set(currencyCode, forKey: Constants.UserDefaults.selectedCurrency)
-            UserDefaults.standard.synchronize()
+    var selectedCurrency: Currency? {
+        get {
+            if let selectedCurrencyCode = UserDefaults.standard.string(forKey: Constants.UserDefaults.selectedCurrency) {
+                return currencyManager.currencyList.first { $0.currencyCode == selectedCurrencyCode }
+            } else {
+                return currencyManager.currencyList.first { $0.currencyCode == "UAH" }
+            }
         }
     }
     
-    func saveCurrency(_ currencyCode: String) {
-        self.currencyCode = currencyCode
+    init(currencyManager: CurrencyManagerProtocol) {
+        self.currencyManager = currencyManager
     }
     
-    func getSelected() {
-        if let selectedCurrencyCode = UserDefaults.standard.string(forKey: Constants.UserDefaults.selectedCurrency) {
-            selectedCurrency = currencyList.first { $0.currencyCode == selectedCurrencyCode }
-        } else {
-            selectedCurrency = nil
-        }
-    }
 }

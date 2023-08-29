@@ -34,7 +34,6 @@ class SettingsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.getSelected()
         tableView.reloadData()
     }
     

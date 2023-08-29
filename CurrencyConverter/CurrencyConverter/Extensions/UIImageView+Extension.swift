@@ -1,5 +1,5 @@
 //
-//  UIImageView + Extensions.swift
+//  UIImageView+Extension.swift
 //  CurrencyConverter
 //
 //  Created by Artem Tkachenko on 23.08.2023.

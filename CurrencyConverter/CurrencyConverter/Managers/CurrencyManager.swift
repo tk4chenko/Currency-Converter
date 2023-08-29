@@ -7,10 +7,24 @@
 
 import Foundation
 
-struct CurrencyManager: JSONLoader {
-    static var currencyList: [Currency] {
-        let localResponse: CurrencyResponse = load(Constants.JSON.filename)
+protocol CurrencyManagerProtocol {
+    var selectedCurrency: Currency? { get }
+    var currencyList: [Currency] { get }
+}
 
+final class CurrencyManager: CurrencyManagerProtocol, JSONLoader {
+    
+    var selectedCurrency: Currency? {
+        if let selectedCurrency = currencyList.first(where: { $0.currencyCode == UserDefaults.standard.string(forKey: Constants.UserDefaults.selectedCurrency) }) {
+            return selectedCurrency
+        } else {
+            return currencyList.first(where: { $0.currencyCode == UserDefaults.standard.string(forKey: "UAH") }) ?? nil
+        }
+    }
+    
+    var currencyList: [Currency] {
+        let localResponse: CurrencyResponse = CurrencyManager.load(Constants.JSON.filename)
+        
         var formattedCurrencies: [Currency] = []
         
         for (key, value) in localResponse {

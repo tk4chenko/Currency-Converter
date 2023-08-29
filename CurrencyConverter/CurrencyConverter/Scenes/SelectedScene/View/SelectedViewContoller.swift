@@ -1,24 +1,19 @@
 //
-//  SelectedCurrencyViewController.swift
+//  SelectedViewController.swift
 //  CurrencyConverter
 //
-//  Created by Artem Tkachenko on 24.08.2023.
+//  Created by Artem Tkachenko on 29.08.2023.
 //
 
 import UIKit
 
-class SelectedCurrencyViewController: UIViewController {
+class SelectedViewController: UIViewController {
     
-    private let viewModel: SettingsViewModel
+    var backToPrevious: ((Currency?) -> Void)?
     
-    init(viewModel: SettingsViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
+    var isSaved: Bool = false
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var viewModel: SelectedViewModelProtocol
     
     private lazy var tableView: UITableView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -30,14 +25,18 @@ class SelectedCurrencyViewController: UIViewController {
         return $0
     }(UITableView())
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        viewModel.getSelected()
-        view.backgroundColor = .white
+    init(viewModel: SelectedViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
         setupConstraints()
     }
     
@@ -51,26 +50,36 @@ class SelectedCurrencyViewController: UIViewController {
         ])
     }
     
+    
 }
 
-extension SelectedCurrencyViewController: UITableViewDataSource {
+extension SelectedViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.currencyList.count
+        return viewModel.currencyList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SelectedCurrencyCell.identifier) as? SelectedCurrencyCell else { return UITableViewCell() }
+        let cell = tableView.dequeueReusableCell(withIdentifier: SelectedCurrencyCell.identifier, for: indexPath) as! SelectedCurrencyCell
         cell.selectionStyle = .none
         let currency = viewModel.currencyList[indexPath.row]
-        let isChecked = currency == viewModel.selectedCurrency
+        var isChecked: Bool
+        if isSaved {
+            isChecked = currency.currencyCode == viewModel.storedCurrency?.currencyCode
+        } else {
+            isChecked = currency.currencyCode == viewModel.transferredCurrency?.currencyCode
+        }
         cell.configureCell(currency, isChecked: isChecked)
         return cell
     }
-}
-
-extension SelectedCurrencyViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.saveCurrency(viewModel.currencyList[indexPath.row].currencyCode)
-        navigationController?.popViewController(animated: true)
+        if isSaved {
+            let currencyCpde = viewModel.currencyList[indexPath.row].currencyCode
+            viewModel.saveCurrency(currencyCpde)
+            backToPrevious?(nil)
+        } else {
+            let currency = viewModel.currencyList[indexPath.row]
+            backToPrevious?(currency)
+        }
     }
 }
