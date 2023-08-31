@@ -9,8 +9,6 @@ import UIKit
 
 final class SelectCountryCurrencyView: UIView {
     
-    var currency: Currency?
-    
     private let flagImage = UIImageView(
         image: UIImage(named: "default"),
         contentMode: .scaleAspectFill)
@@ -52,7 +50,6 @@ final class SelectCountryCurrencyView: UIView {
     
     func setupView(_ currency: Currency?) {
         guard let currency else { return }
-        self.currency = currency
         flagImage.image = UIImage(named: currency.currencyCode)
         currencyNameLabel.text = "\(currency.currencyName) (\(currency.currencyCode))"
         currencyCountryLabel.text = currency.currencyCountry

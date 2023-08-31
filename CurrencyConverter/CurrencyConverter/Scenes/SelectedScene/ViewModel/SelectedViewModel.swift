@@ -12,6 +12,7 @@ protocol SelectedViewModelProtocol: AnyObject {
     var currencyList: [Currency] { get }
     var storedCurrency: Currency? { get }
     func saveCurrency(_ currencyCode: String)
+    func backToPrevious(with currency: Currency?)
 }
 
 class SelectedViewModel: SelectedViewModelProtocol {
@@ -19,6 +20,8 @@ class SelectedViewModel: SelectedViewModelProtocol {
     private let currencyManager: CurrencyManagerProtocol
     
     var transferredCurrency: Currency?
+    
+    weak var coordinatorDelegate: SelectedCoordinatorDelegate?
     
     var currencyList: [Currency] {
         currencyManager.currencyList
@@ -39,5 +42,9 @@ class SelectedViewModel: SelectedViewModelProtocol {
     func saveCurrency(_ currencyCode: String) {
         UserDefaults.standard.set(currencyCode, forKey: Constants.UserDefaults.selectedCurrency)
         UserDefaults.standard.synchronize()
+    }
+    
+    func backToPrevious(with currency: Currency?) {
+        coordinatorDelegate?.backToPrevious(currency: currency)
     }
 }

@@ -76,8 +76,10 @@ class BidsItemCell: UITableViewCell, IdentifiableCell {
         toFlagImageView.image = UIImage(named: bid.toCode)
         currencyCodeLabel.text = "\(bid.fromCode) / \(bid.toCode)"
         currencyCodeLabel.setColorToText(targetText: "/", color: .gray)
-        fromAmountLabel.text = String(bid.fromAmount.roundedToTwoDecimalPlaces())
-        toAmountLabel.text = String(bid.toAmount.roundedToTwoDecimalPlaces())
+        let fromSymbol = bid.fromCode.getSymbolForCurrencyCode()
+        let toSymbol = bid.toCode.getSymbolForCurrencyCode()
+        fromAmountLabel.text = "\(fromSymbol)\(bid.fromAmount.roundedToTwoDecimalPlaces())"
+        toAmountLabel.text = "\(toSymbol)\(bid.toAmount.roundedToTwoDecimalPlaces())"
         fromAmountLabel.colorTextAfterLastDot(with: .gray)
         toAmountLabel.colorTextAfterLastDot(with: .gray)
     }

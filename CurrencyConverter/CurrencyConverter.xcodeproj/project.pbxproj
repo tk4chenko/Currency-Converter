@@ -23,6 +23,10 @@
 		4E7D5A5F2A9CF8A00091D234 /* SelectedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7D5A5E2A9CF8A00091D234 /* SelectedCoordinator.swift */; };
 		4E7D5A612A9D2B5A0091D234 /* SelectedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7D5A602A9D2B5A0091D234 /* SelectedViewModel.swift */; };
 		4E7D5A672A9D368D0091D234 /* Float+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7D5A662A9D368D0091D234 /* Float+Extension.swift */; };
+		4E819EF32AA083E400747739 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E819EF22AA083E400747739 /* String+Extension.swift */; };
+		4E819EF52AA0878100747739 /* AddOwnedCurrencyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E819EF42AA0878100747739 /* AddOwnedCurrencyViewModel.swift */; };
+		4E819EF82AA08F3500747739 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 4E819EF72AA08F3500747739 /* Realm */; };
+		4E819EFA2AA08F3800747739 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4E819EF92AA08F3800747739 /* RealmSwift */; };
 		4E845A8B2A98AFF4006A2C5B /* WalletCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E845A8A2A98AFF4006A2C5B /* WalletCoordinator.swift */; };
 		4E845A902A98B035006A2C5B /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E845A8F2A98B035006A2C5B /* WalletViewModel.swift */; };
 		4E845AA72A98B089006A2C5B /* Montserrat-Italic-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E845A922A98B089006A2C5B /* Montserrat-Italic-VariableFont_wght.ttf */; };
@@ -56,8 +60,6 @@
 		4E845ACE2A98DC26006A2C5B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E845ACD2A98DC26006A2C5B /* UIButton+Extension.swift */; };
 		4E845AD02A98E15D006A2C5B /* SelectCountryCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E845ACF2A98E15D006A2C5B /* SelectCountryCurrencyView.swift */; };
 		4E845AD42A991FD2006A2C5B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E845AD32A991FD2006A2C5B /* RealmManager.swift */; };
-		4E845AD72A992045006A2C5B /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 4E845AD62A992045006A2C5B /* Realm */; };
-		4E845AD92A992045006A2C5B /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4E845AD82A992045006A2C5B /* RealmSwift */; };
 		4E8F27E52A9664A0000CDD11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8F27E42A9664A0000CDD11 /* AppDelegate.swift */; };
 		4E8F27E72A9664A0000CDD11 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8F27E62A9664A0000CDD11 /* SceneDelegate.swift */; };
 		4E8F27EE2A9664A2000CDD11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E8F27ED2A9664A2000CDD11 /* Assets.xcassets */; };
@@ -110,6 +112,8 @@
 		4E7D5A5E2A9CF8A00091D234 /* SelectedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCoordinator.swift; sourceTree = "<group>"; };
 		4E7D5A602A9D2B5A0091D234 /* SelectedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedViewModel.swift; sourceTree = "<group>"; };
 		4E7D5A662A9D368D0091D234 /* Float+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Extension.swift"; sourceTree = "<group>"; };
+		4E819EF22AA083E400747739 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		4E819EF42AA0878100747739 /* AddOwnedCurrencyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOwnedCurrencyViewModel.swift; sourceTree = "<group>"; };
 		4E845A8A2A98AFF4006A2C5B /* WalletCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCoordinator.swift; sourceTree = "<group>"; };
 		4E845A8F2A98B035006A2C5B /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
 		4E845A922A98B089006A2C5B /* Montserrat-Italic-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Italic-VariableFont_wght.ttf"; sourceTree = "<group>"; };
@@ -185,8 +189,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E845AD92A992045006A2C5B /* RealmSwift in Frameworks */,
-				4E845AD72A992045006A2C5B /* Realm in Frameworks */,
+				4E819EFA2AA08F3800747739 /* RealmSwift in Frameworks */,
+				4E819EF82AA08F3500747739 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,10 +293,18 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
+		4E819EF62AA08F3500747739 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4E845A8C2A98B00F006A2C5B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				4E845A8F2A98B035006A2C5B /* WalletViewModel.swift */,
+				4E819EF42AA0878100747739 /* AddOwnedCurrencyViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -374,6 +386,7 @@
 			children = (
 				4E8F27E32A9664A0000CDD11 /* CurrencyConverter */,
 				4E8F27E22A9664A0000CDD11 /* Products */,
+				4E819EF62AA08F3500747739 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -522,6 +535,7 @@
 				4E845ACB2A98DA95006A2C5B /* UITextField+Extension.swift */,
 				4E845ACD2A98DC26006A2C5B /* UIButton+Extension.swift */,
 				4E7D5A662A9D368D0091D234 /* Float+Extension.swift */,
+				4E819EF22AA083E400747739 /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -652,8 +666,8 @@
 			);
 			name = CurrencyConverter;
 			packageProductDependencies = (
-				4E845AD62A992045006A2C5B /* Realm */,
-				4E845AD82A992045006A2C5B /* RealmSwift */,
+				4E819EF72AA08F3500747739 /* Realm */,
+				4E819EF92AA08F3800747739 /* RealmSwift */,
 			);
 			productName = CurrencyConverter;
 			productReference = 4E8F27E12A9664A0000CDD11 /* CurrencyConverter.app */;
@@ -755,6 +769,7 @@
 				4E8F28442A967A9E000CDD11 /* IdentifiableCell.swift in Sources */,
 				4E8F28242A9673B9000CDD11 /* JSONLoader.swift in Sources */,
 				4E7D5A5F2A9CF8A00091D234 /* SelectedCoordinator.swift in Sources */,
+				4E819EF52AA0878100747739 /* AddOwnedCurrencyViewModel.swift in Sources */,
 				4E8F28372A9675AE000CDD11 /* RequestMethod.swift in Sources */,
 				4E8F28172A966A84000CDD11 /* CurrencyListViewModel.swift in Sources */,
 				4E6164DB2A9747DE009D13EA /* Currency.swift in Sources */,
@@ -762,6 +777,7 @@
 				4E845AC82A98C667006A2C5B /* WalletCell.swift in Sources */,
 				4E8F28222A967359000CDD11 /* Constants.swift in Sources */,
 				4E845AC42A98B1E8006A2C5B /* BidsViewModel.swift in Sources */,
+				4E819EF32AA083E400747739 /* String+Extension.swift in Sources */,
 				4E845ACC2A98DA95006A2C5B /* UITextField+Extension.swift in Sources */,
 				4E8F28032A9666EC000CDD11 /* AppCoordinator.swift in Sources */,
 				4E8F28132A966A1A000CDD11 /* CurrencyListCoordinator.swift in Sources */,
@@ -1018,12 +1034,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4E845AD62A992045006A2C5B /* Realm */ = {
+		4E819EF72AA08F3500747739 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4E845AD52A992044006A2C5B /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = Realm;
 		};
-		4E845AD82A992045006A2C5B /* RealmSwift */ = {
+		4E819EF92AA08F3800747739 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4E845AD52A992044006A2C5B /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;

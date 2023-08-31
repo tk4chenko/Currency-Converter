@@ -9,9 +9,7 @@ import UIKit
 
 class BidsViewController: UIViewController {
     
-    private let viewModel: BidsViewModel
-    
-    var openAddBidCurrencyController: (()->Void)?
+    private var viewModel: BidsViewModelProtocol
     
     private lazy var tableView: UITableView = {
         $0.isHidden = false
@@ -39,7 +37,7 @@ class BidsViewController: UIViewController {
         return $0
     }(UISearchController())
     
-    init(viewModel: BidsViewModel) {
+    init(viewModel: BidsViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -69,7 +67,7 @@ class BidsViewController: UIViewController {
         let secondButton = UIBarButtonItem(image: UIImage(named: "magnifyingglass"), style: .plain, target: self, action: #selector(searchPressed))
         
         navigationItem.rightBarButtonItems = [firstButton, secondButton]
-//        navigationItem.searchController = searchController
+        navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
     }
     
@@ -86,11 +84,11 @@ class BidsViewController: UIViewController {
     }
     
     @objc private func searchPressed() {
-        
+        searchController.searchBar.becomeFirstResponder()
     }
     
     @objc private func addPressed() {
-        openAddBidCurrencyController?()
+        viewModel.openAddBidCurrencyController()
     }
     
     private func setupConstraints() {
@@ -114,39 +112,49 @@ class BidsViewController: UIViewController {
 extension BidsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.bids.value?.count ?? 0
+        viewModel.filteredBids.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BidsItemCell.identifier) as? BidsItemCell else { return UITableViewCell() }
         cell.selectionStyle = .none
-        if let bid = viewModel.bids.value?[indexPath.row] {
-            cell.setupCell(with: bid)
-        }
+        let bid = viewModel.filteredBids[indexPath.row]
+        cell.setupCell(with: bid)
         return cell
     }
     
-
+    
 }
 
 extension BidsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             
-            guard let bid = self.viewModel.bids.value?[indexPath.row] else { return }
+            let bid = self.viewModel.filteredBids[indexPath.row]
             self.viewModel.deleteBid(bid)
-                tableView.reloadData()
-            }
+            self.viewModel.loadData()
+        }
         
-            let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-            return configuration
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        return configuration
     }
 }
 
 extension BidsViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
+        guard let searchQuery = searchController.searchBar.text?.lowercased() else {
+            return
+        }
         
+        if searchQuery.isEmpty {
+            viewModel.filteredBids = viewModel.bids.value ?? []
+        } else {
+            viewModel.filteredBids = viewModel.bids.value?.filter { currency in
+                currency.fromCode.lowercased().contains(searchQuery) || currency.toCode.lowercased().contains(searchQuery)
+            } ?? []
+        }
+        tableView.reloadData()
     }
     
 }

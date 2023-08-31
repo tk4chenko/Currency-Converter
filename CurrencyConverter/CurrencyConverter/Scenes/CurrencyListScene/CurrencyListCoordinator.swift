@@ -30,7 +30,4 @@ class CurrencyListCoordinator: Coordinator {
         navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 28, bottom: 0, right: -28)
         navigationController.pushViewController(viewController, animated: true)
     }
-
-    
-    
 }

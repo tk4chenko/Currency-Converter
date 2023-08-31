@@ -13,10 +13,7 @@ enum Direction {
 
 class AddBidCurrencyViewController: UIViewController {
     
-    var openSelectedCurrencyController: ((Currency?)->Void)?
-    var backToPrevious: (()->Void)?
-    
-    private let viewModel: AddBidCurrencyViewModel
+    private let viewModel: AddBidCurrencyViewModelProtocol
     
     var direction: Direction?
     
@@ -67,7 +64,7 @@ class AddBidCurrencyViewController: UIViewController {
     
     private let toSelectCountryCurrencyView = SelectCountryCurrencyView()
     
-    init(viewModel: AddBidCurrencyViewModel) {
+    init(viewModel: AddBidCurrencyViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -118,8 +115,10 @@ class AddBidCurrencyViewController: UIViewController {
     @objc private func addButtonPressed() {
         if let fromCurrency = currency.0, let toCurrency = currency.1, let numberedText = Float(ownedValueTextField.text ?? "") {
             let bid = Bid(fromCode: fromCurrency.currencyCode, toCode: toCurrency.currencyCode, fromAmount: numberedText)
-            viewModel.saveBid(bid)
-            backToPrevious?()
+            Task {
+                await viewModel.saveBid(bid)
+                viewModel.backToPrevious()
+            }
         }
     }
     
@@ -128,10 +127,10 @@ class AddBidCurrencyViewController: UIViewController {
         switch view.tag {
         case 0:
             direction = .from
-            openSelectedCurrencyController?(currency.0)
+            viewModel.openSelectedCurrencyController(with: currency.0)
         case 1:
             direction = .to
-            openSelectedCurrencyController?(currency.1)
+            viewModel.openSelectedCurrencyController(with: currency.1)
         default:
             return
         }

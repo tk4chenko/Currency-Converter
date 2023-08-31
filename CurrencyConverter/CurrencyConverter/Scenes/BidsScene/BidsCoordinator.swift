@@ -7,6 +7,18 @@
 
 import UIKit
 
+protocol BidsControllerCoordinatorDelegate: AnyObject {
+    func openAddBidCurrencyController()
+}
+
+protocol AddDidCoordinatorDelegate: AnyObject {
+    func openSelectedCurrencyController(with currency: Currency?)
+    func popViewController()
+    func popToAddOwnedCurrencyController(with currency: Currency)
+}
+
+typealias BidsCoordinatorDelegate = BidsControllerCoordinatorDelegate & AddDidCoordinatorDelegate
+
 class BidsCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
@@ -21,28 +33,24 @@ class BidsCoordinator: Coordinator {
     
     func start() {
         let viewModel = BidsViewModel(realmManager: RealmManager())
+        viewModel.coordinatorDelegate = self
         let viewController = BidsViewController(viewModel: viewModel)
-        viewController.openAddBidCurrencyController = { [weak self] in
-            self?.openAddBidCurrencyController()
-        }
         viewController.addNavItemTitle(text: "Bids", font: .montserratSemibold, fontSize: 17)
         viewController.navigationItem.backButtonTitle = ""
         navigationController?.tabBarItem = UITabBarItem(title: nil,
-                                                       image: TabBarItems.bids.image,
-                                                       selectedImage: nil)
+                                                        image: TabBarItems.bids.image,
+                                                        selectedImage: nil)
         navigationController?.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 8)
         navigationController?.pushViewController(viewController, animated: true)
     }
+}
+
+extension BidsCoordinator: BidsCoordinatorDelegate {
     
-    private func openAddBidCurrencyController() {
+    func openAddBidCurrencyController() {
         let viewModel = AddBidCurrencyViewModel(realmManager: RealmManager(), networkServise: CurrencyNetworkService())
+        viewModel.coordinatorDelegate = self
         let viewController = AddBidCurrencyViewController(viewModel: viewModel)
-        viewController.openSelectedCurrencyController = { [weak self] currency in
-            self?.openSelectedCurrencyController(with: currency)
-        }
-        viewController.backToPrevious = { [weak self] in
-            self?.popViewController()
-        }
         viewController.addNavItemTitle(text: "Add Bid", font: .montserratSemibold, fontSize: 17)
         viewController.navigationItem.backButtonTitle = ""
         navigationController?.pushViewController(viewController, animated: true)
@@ -64,7 +72,7 @@ class BidsCoordinator: Coordinator {
         navigationController?.popViewController(animated: true)
     }
     
-    private func popToAddOwnedCurrencyController(with currency: Currency) {
+    func popToAddOwnedCurrencyController(with currency: Currency) {
         if let viewControllers = navigationController?.viewControllers {
             for viewController in viewControllers {
                 if let addBidController = viewController as? AddBidCurrencyViewController {

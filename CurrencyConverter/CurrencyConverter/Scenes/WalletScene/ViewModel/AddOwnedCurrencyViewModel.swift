@@ -1,34 +1,35 @@
 //
-//  AddBidCurrencyViewModel.swift
+//  AddOwnedCurrencyViewModel.swift
 //  CurrencyConverter
 //
-//  Created by Artem Tkachenko on 29.08.2023.
+//  Created by Artem Tkachenko on 31.08.2023.
 //
 
 import Foundation
 
-protocol AddBidCurrencyViewModelProtocol {
-    func saveBid(_ bid: Bid) async
+protocol AddOwnedCurrencyViewModelProtocol {
+    func saveWallet(_ wallet: Wallet) async
     func openSelectedCurrencyController(with currency: Currency?)
-    func backToPrevious()
+    func popViewController()
+    func popToAddOwnedCurrencyController(with currency: Currency)
 }
 
-class AddBidCurrencyViewModel: AddBidCurrencyViewModelProtocol {
+class AddOwnedCurrencyViewModel: AddOwnedCurrencyViewModelProtocol {
     
     private let realmManager: RealmManagerProtocol
     private let networkServise: CurrencyNetworkService
     
-    weak var coordinatorDelegate: AddDidCoordinatorDelegate?
+    weak var coordinatorDelegate: AddOwnedCurrencyCoordinatorDelegate?
     
     init(realmManager: RealmManagerProtocol, networkServise: CurrencyNetworkService) {
         self.realmManager = realmManager
         self.networkServise = networkServise
     }
     
-    func saveBid(_ bid: Bid) async {
-        await getPair(fromCode: bid.fromCode, toCode: bid.toCode, amount: bid.fromAmount) { response in
-            bid.toAmount = Float(response.conversionResult ?? 0)
-            self.realmManager.saveModel(model: bid)
+    func saveWallet(_ wallet: Wallet) async {
+        await getPair(fromCode: wallet.code, toCode: "USD", amount: wallet.amount) { response in
+            wallet.usdAmmount = Float(response.conversionResult ?? 0)
+            self.realmManager.saveModel(model: wallet)
         }
     }
     
@@ -45,8 +46,12 @@ class AddBidCurrencyViewModel: AddBidCurrencyViewModelProtocol {
         coordinatorDelegate?.openSelectedCurrencyController(with: currency)
     }
     
-    func backToPrevious() {
+    func popViewController() {
         coordinatorDelegate?.popViewController()
     }
     
+    func popToAddOwnedCurrencyController(with currency: Currency) {
+        coordinatorDelegate?.popToAddOwnedCurrencyController(with: currency)
+    }
 }
+

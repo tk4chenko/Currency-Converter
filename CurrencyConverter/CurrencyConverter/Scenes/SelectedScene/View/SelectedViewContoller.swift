@@ -76,10 +76,10 @@ extension SelectedViewController: UITableViewDataSource, UITableViewDelegate {
         if isSaved {
             let currencyCpde = viewModel.currencyList[indexPath.row].currencyCode
             viewModel.saveCurrency(currencyCpde)
-            backToPrevious?(nil)
+            viewModel.backToPrevious(with: nil)
         } else {
             let currency = viewModel.currencyList[indexPath.row]
-            backToPrevious?(currency)
+            viewModel.backToPrevious(with: currency)
         }
     }
 }

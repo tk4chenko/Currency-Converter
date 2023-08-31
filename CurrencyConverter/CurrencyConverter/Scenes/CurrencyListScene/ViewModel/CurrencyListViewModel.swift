@@ -10,6 +10,7 @@ import Foundation
 protocol CurrencyListViewModelProtocol {
     var currencyList: Observable<[LatestCurrency]?> { get }
     var error: Observable<String?> { get }
+    var filteredCurrencies: [LatestCurrency] { get set }
     func loadData() async
 }
 
@@ -20,6 +21,7 @@ final class CurrencyListViewModel: CurrencyListViewModelProtocol {
     
     let currencyList: Observable<[LatestCurrency]?> = Observable(nil)
     let error: Observable<String?> = Observable(nil)
+    var filteredCurrencies: [LatestCurrency] = []
     
     init(networkService: CurrencyNetworkServiceProtocol, currencyManager: CurrencyManagerProtocol) {
         self.networkService = networkService
@@ -45,6 +47,7 @@ final class CurrencyListViewModel: CurrencyListViewModelProtocol {
                 }
             }
             self.currencyList.value = currencyList
+            self.filteredCurrencies = currencyList
         } catch {
             self.error.value = error.localizedDescription
         }

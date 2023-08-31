@@ -14,10 +14,9 @@ class Wallet: Object {
     @Persisted var amount: Float = 0.0
     @Persisted var usdAmmount: Float = 0.0
     
-    convenience init(code: String, amount: Float, usdAmmount: Float) {
+    convenience init(code: String, amount: Float) {
         self.init()
         self.code = code
         self.amount = amount
-        self.usdAmmount = usdAmmount
     }
 }

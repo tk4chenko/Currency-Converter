@@ -7,6 +7,18 @@
 
 import UIKit
 
+protocol WalletControllerCoordinatorDelegate: AnyObject {
+    func openAddOwnedCurrencyController()
+}
+
+protocol AddOwnedCurrencyCoordinatorDelegate: AnyObject {
+    func openSelectedCurrencyController(with currency: Currency?)
+    func popViewController()
+    func popToAddOwnedCurrencyController(with currency: Currency)
+}
+
+typealias WalletCoordinatorDelegate = AddOwnedCurrencyCoordinatorDelegate & WalletControllerCoordinatorDelegate
+
 final class WalletCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
@@ -21,24 +33,24 @@ final class WalletCoordinator: Coordinator {
     
     func start() {
         let viewModel = WalletViewModel(realmManager: RealmManager())
+        viewModel.coordinatorDelegate = self
         let viewController = WalletViewController(viewModel: viewModel)
-        viewController.addNavItemTitle(text: "Wallet", font: .montserratSemibold, fontSize: 17)
-        viewController.openAddOwnedCurrencyController = { [weak self] in
-            self?.openAddOwnedCurrencyController()
-        }
         viewController.navigationItem.backButtonTitle = ""
+        viewController.addNavItemTitle(text: "Wallet", font: .montserratSemibold, fontSize: 17)
         navigationController?.tabBarItem = UITabBarItem(title: nil,
-                                                       image: TabBarItems.wallet.image,
-                                                       selectedImage: nil)
+                                                        image: TabBarItems.wallet.image,
+                                                        selectedImage: nil)
         navigationController?.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: -8)
         navigationController?.pushViewController(viewController, animated: true)
     }
+}
+
+extension WalletCoordinator: WalletCoordinatorDelegate {
     
-    private func openAddOwnedCurrencyController() {
-        let viewController = AddOwnedCurrencyViewController()
-        viewController.openSelectedCurrencyController = { [weak self] currency in
-            self?.openSelectedCurrencyController(with: currency)
-        }
+    func openAddOwnedCurrencyController() {
+        let viewModel = AddOwnedCurrencyViewModel(realmManager: RealmManager(), networkServise: CurrencyNetworkService())
+        viewModel.coordinatorDelegate = self
+        let viewController = AddOwnedCurrencyViewController(viewModel: viewModel)
         viewController.addNavItemTitle(text: "Add Owned Currency", font: .montserratSemibold, fontSize: 17)
         viewController.navigationItem.backButtonTitle = ""
         navigationController?.pushViewController(viewController, animated: true)
@@ -56,7 +68,11 @@ final class WalletCoordinator: Coordinator {
         coordinator.start()
     }
     
-    private func popToAddOwnedCurrencyController(with currency: Currency) {
+    func popViewController() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func popToAddOwnedCurrencyController(with currency: Currency) {
         if let viewControllers = navigationController?.viewControllers {
             for viewController in viewControllers {
                 if let addOwnedController = viewController as? AddOwnedCurrencyViewController {
@@ -67,6 +83,6 @@ final class WalletCoordinator: Coordinator {
             }
         }
     }
-
+    
 }
 

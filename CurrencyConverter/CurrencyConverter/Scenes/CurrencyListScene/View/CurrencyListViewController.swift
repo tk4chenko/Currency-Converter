@@ -9,7 +9,7 @@ import UIKit
 
 final class CurrencyListViewController: UIViewController {
     
-    private let viewModel: CurrencyListViewModelProtocol
+    private var viewModel: CurrencyListViewModelProtocol
     
     private lazy var tableView: UITableView = {
         $0.isHidden = false
@@ -73,7 +73,7 @@ final class CurrencyListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "magnifyingglass"), style: .plain, target: self, action: #selector(searchPressed))
         setupBindings()
         errorView.retryButton.addTarget(self, action: #selector(retryPressed), for: .touchUpInside)
-        //        navigationItem.searchController = searchController
+        navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
     }
     
@@ -84,7 +84,7 @@ final class CurrencyListViewController: UIViewController {
     }
     
     @objc private func searchPressed() {
-        
+        searchController.searchBar.becomeFirstResponder()
     }
     
     private func setupBindings() {
@@ -148,15 +148,14 @@ final class CurrencyListViewController: UIViewController {
 
 extension CurrencyListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.currencyList.value?.count ?? 0
+        viewModel.filteredCurrencies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyListCell.identifier) as? CurrencyListCell else { return UITableViewCell() }
         cell.selectionStyle = .none
-        if let currency = viewModel.currencyList.value?[indexPath.row] {
-            cell.setupUI(by: currency)
-        }
+        let currency = viewModel.filteredCurrencies[indexPath.row]
+        cell.setupUI(by: currency)
         return cell
     }
 }
@@ -164,6 +163,17 @@ extension CurrencyListViewController: UITableViewDataSource {
 extension CurrencyListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
+        guard let searchQuery = searchController.searchBar.text?.lowercased() else {
+            return
+        }
         
+        if searchQuery.isEmpty {
+            viewModel.filteredCurrencies = viewModel.currencyList.value ?? []
+        } else {
+            viewModel.filteredCurrencies = viewModel.currencyList.value?.filter { currency in
+                return currency.currencyCode.lowercased().contains(searchQuery)
+            } ?? []
+        }
+        tableView.reloadData()
     }
 }
