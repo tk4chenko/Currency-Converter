@@ -9,26 +9,26 @@ import UIKit
 
 final class CurrencyListCell: UITableViewCell, IdentifiableCell {
     
-    let flagImage = UIImageView(
+    private let flagImage = UIImageView(
         contentMode: .scaleAspectFill)
     
-    let currencyCodeLabel = UILabel(
+    private let currencyCodeLabel = UILabel(
         textColor: .black,
         textAlignment: .left,
         fontSize: 14,
         fontWeight: .medium)
     
-    let currencyCountryLabel = UILabel(
+    private let currencyCountryLabel = UILabel(
         textColor: .gray,
         textAlignment: .left,
         fontSize: 14)
     
-    let baseCodeLabel = UILabel(
+    private let baseCodeLabel = UILabel(
         textAlignment: .right,
         fontSize: 14,
         fontWeight: .medium)
     
-    let amountLabel = UILabel(
+    private let amountLabel = UILabel(
         textAlignment: .right,
         fontSize: 14,
         fontWeight: .regular)

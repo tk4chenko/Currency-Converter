@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol WalletControllerCoordinatorDelegate: AnyObject {
+protocol WalletViewCoordinatorDelegate: AnyObject {
     func openAddOwnedCurrencyController()
 }
 
@@ -17,7 +17,7 @@ protocol AddOwnedCurrencyCoordinatorDelegate: AnyObject {
     func popToAddOwnedCurrencyController(with currency: Currency)
 }
 
-typealias WalletCoordinatorDelegate = AddOwnedCurrencyCoordinatorDelegate & WalletControllerCoordinatorDelegate
+typealias WalletCoordinatorDelegate = AddOwnedCurrencyCoordinatorDelegate & WalletViewCoordinatorDelegate
 
 final class WalletCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
@@ -37,10 +37,15 @@ final class WalletCoordinator: Coordinator {
         let viewController = WalletViewController(viewModel: viewModel)
         viewController.navigationItem.backButtonTitle = ""
         viewController.addNavItemTitle(text: "Wallet", font: .montserratSemibold, fontSize: 17)
-        navigationController?.tabBarItem = UITabBarItem(title: nil,
-                                                        image: TabBarItems.wallet.image,
-                                                        selectedImage: nil)
-        navigationController?.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: -8)
+        navigationController?.tabBarItem = UITabBarItem(
+            title: nil,
+            image: TabBarItems.wallet.image,
+            selectedImage: nil)
+        navigationController?.tabBarItem.imageInsets = UIEdgeInsets(
+            top: 0,
+            left: 8,
+            bottom: 0,
+            right: -8)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -73,16 +78,13 @@ extension WalletCoordinator: WalletCoordinatorDelegate {
     }
     
     func popToAddOwnedCurrencyController(with currency: Currency) {
-        if let viewControllers = navigationController?.viewControllers {
-            for viewController in viewControllers {
-                if let addOwnedController = viewController as? AddOwnedCurrencyViewController {
-                    addOwnedController.currency = currency
-                    navigationController?.popToViewController(addOwnedController, animated: true)
-                    break
-                }
+        guard let viewControllers = navigationController?.viewControllers else { return }
+        for viewController in viewControllers {
+            if let addOwnedController = viewController as? AddOwnedCurrencyViewController {
+                addOwnedController.currency = currency
+                navigationController?.popToViewController(addOwnedController, animated: true)
+                break
             }
         }
     }
-    
 }
-

@@ -17,7 +17,7 @@ final class ErrorView: UIView {
         text: "Something went wrong while fetching data. Please, try again",
         textColor: .black)
     
-    let retryButton  = UIButton(
+    let retryButton = UIButton(
         title: "Retry",
         backgroundColor: .green,
         cornerRadius: 8,

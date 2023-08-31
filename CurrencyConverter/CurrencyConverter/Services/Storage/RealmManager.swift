@@ -17,27 +17,33 @@ protocol RealmManagerProtocol {
 final class RealmManager: RealmManagerProtocol {
     
     func saveModel<T: Object>(model: T) {
-        DispatchQueue.main.async {
-            let realm = try! Realm()
-            try! realm.write {
-                realm.add(model, update: .modified)
+        Task {
+            await MainActor.run {
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.add(model, update: .modified)
+                }
             }
         }
     }
     
     func deleteModel<T: Object>(model: T) {
-        DispatchQueue.main.async {
-            let realm = try! Realm()
-            try! realm.write {
-                realm.delete(model)
+        Task {
+            await MainActor.run {
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.delete(model)
+                }
             }
         }
     }
     
     func loadModels<T: Object>(completion: @escaping ([T]) -> Void) {
-        DispatchQueue.main.async {
-            let realm = try! Realm()
-            completion(Array(realm.objects(T.self)))
+        Task {
+            await MainActor.run {
+                let realm = try! Realm()
+                completion(Array(realm.objects(T.self)))
+            }
         }
     }
 }

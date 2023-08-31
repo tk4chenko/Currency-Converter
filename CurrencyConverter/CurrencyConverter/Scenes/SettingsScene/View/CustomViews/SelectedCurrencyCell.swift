@@ -7,13 +7,25 @@
 
 import UIKit
 
-class SelectedCurrencyCell: UITableViewCell, IdentifiableCell {
+final class SelectedCurrencyCell: UITableViewCell, IdentifiableCell {
     
-    private let flagImage = UIImageView(contentMode: .scaleAspectFill)
-    private let currencyCodeLabel = UILabel(textColor: .black, textAlignment: .left, fontSize: 14, fontWeight: .medium)
-    private let currencyNameLabel = UILabel(textColor: .gray, textAlignment: .left, fontSize: 14)
+    private let flagImage = UIImageView(
+        contentMode: .scaleAspectFill)
     
-    private let checkedMark = UIImageView(image: UIImage(named: "radio-unchecked"), contentMode: .scaleAspectFill)
+    private let currencyCodeLabel = UILabel(
+        textColor: .black,
+        textAlignment: .left,
+        fontSize: 14,
+        fontWeight: .medium)
+    
+    private let currencyNameLabel = UILabel(
+        textColor: .gray,
+        textAlignment: .left,
+        fontSize: 14)
+    
+    private let checkedMark = UIImageView(
+        image: UIImage(named: "radio-unchecked"),
+        contentMode: .scaleAspectFill)
     
     var isSelectedCell: Bool = false {
         didSet {

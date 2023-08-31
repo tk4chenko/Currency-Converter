@@ -7,13 +7,29 @@
 
 import UIKit
 
-class SettingsCell: UITableViewCell, IdentifiableCell {
+final class SettingsCell: UITableViewCell, IdentifiableCell {
     
-    private let flagImage = UIImageView(image: UIImage(named: "UAH"), contentMode: .scaleAspectFill)
-    private let titleLabel = UILabel(text: "Selected Currency:", textColor: .lightGray, textAlignment: .left, fontSize: 14)
-    private let countryNameLabel = UILabel(text: "Ukraine", textColor: .black, textAlignment: .left, fontSize: 14, fontWeight: .medium)
+    private let flagImage = UIImageView(
+        image: UIImage(named: "UAH"),
+        contentMode: .scaleAspectFill)
     
-    private let stackView = UIStackView(axis: .vertical, spacing: 8, distribution: .fill)
+    private let titleLabel = UILabel(
+        text: "Selected Currency:",
+        textColor: .lightGray,
+        textAlignment: .left,
+        fontSize: 14)
+    
+    private let countryNameLabel = UILabel(
+        text: "Ukraine",
+        textColor: .black,
+        textAlignment: .left,
+        fontSize: 14,
+        fontWeight: .medium)
+    
+    private let stackView = UIStackView(
+        axis: .vertical,
+        spacing: 8,
+        distribution: .fill)
 
     override func layoutSubviews() {
         super.layoutSubviews()

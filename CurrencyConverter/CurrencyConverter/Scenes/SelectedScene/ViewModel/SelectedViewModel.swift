@@ -19,9 +19,9 @@ class SelectedViewModel: SelectedViewModelProtocol {
     
     private let currencyManager: CurrencyManagerProtocol
     
-    var transferredCurrency: Currency?
-    
     weak var coordinatorDelegate: SelectedCoordinatorDelegate?
+    
+    var transferredCurrency: Currency?
     
     var currencyList: [Currency] {
         currencyManager.currencyList

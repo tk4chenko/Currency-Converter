@@ -15,11 +15,11 @@ protocol BidsViewModelProtocol {
     func openAddBidCurrencyController()
 }
 
-class BidsViewModel: BidsViewModelProtocol {
+final class BidsViewModel: BidsViewModelProtocol {
     
     private let realmManager: RealmManagerProtocol
     
-    weak var coordinatorDelegate: BidsControllerCoordinatorDelegate?
+    weak var coordinatorDelegate: BidsViewCoordinatorDelegate?
     
     let bids: Observable<[Bid]?> = Observable(nil)
     var filteredBids: [Bid] = []

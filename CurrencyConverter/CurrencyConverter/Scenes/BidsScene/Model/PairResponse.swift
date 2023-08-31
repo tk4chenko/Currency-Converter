@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PairResponse: Codable {
+struct PairResponse: Decodable {
     let result: String?
     let documentation, termsOfUse: String?
     let timeLastUpdateUnix: Int?

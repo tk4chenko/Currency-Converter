@@ -11,19 +11,19 @@ protocol SelectedCoordinatorDelegate: AnyObject {
     func backToPrevious(currency: Currency?)
 }
 
-class SelectedCoordinator: Coordinator {
+final class SelectedCoordinator: Coordinator {
 
     weak var parentCoordinator: Coordinator?
     
     var childCoordinators: [Coordinator] = []
+    
+    var backToPrevious: ((Currency?)->Void)?
     
     private let navigationController: UINavigationController
     
     private let currency: Currency?
     
     private let isSaved: Bool
-    
-    var backToPrevious: ((Currency?)->Void)?
     
     init(navigationController: UINavigationController, currency: Currency? = nil, isSaved: Bool) {
         self.navigationController = navigationController
@@ -45,13 +45,10 @@ class SelectedCoordinator: Coordinator {
         viewController.addNavItemTitle(text: "Selected Currency", font: .montserratSemibold, fontSize: 17)
         navigationController.pushViewController(viewController, animated: true)
     }
-    
 }
 
 extension SelectedCoordinator: SelectedCoordinatorDelegate {
     func backToPrevious(currency: Currency?) {
         self.backToPrevious?(currency)
     }
-    
-    
 }

@@ -1,5 +1,5 @@
 //
-//  WallerHeader.swift
+//  WalletHeader.swift
 //  CurrencyConverter
 //
 //  Created by Artem Tkachenko on 25.08.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WalletHeader: UITableViewHeaderFooterView, IdentifiableCell {
+final class WalletHeader: UITableViewHeaderFooterView, IdentifiableCell {
     
     private let titleLabel = UILabel(text: "Total Balance", textColor: .gray, textAlignment: .left, fontSize: 20, fontWeight: .semibold)
     
@@ -21,7 +21,6 @@ class WalletHeader: UITableViewHeaderFooterView, IdentifiableCell {
     
     private func setupConstraints() {
         contentView.addSubviews([titleLabel, totalBalanceLabel])
-        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(
                 equalTo: contentView.topAnchor,

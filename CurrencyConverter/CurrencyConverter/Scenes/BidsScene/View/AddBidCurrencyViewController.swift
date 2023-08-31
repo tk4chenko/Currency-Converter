@@ -11,7 +11,7 @@ enum Direction {
     case from, to
 }
 
-class AddBidCurrencyViewController: UIViewController {
+final class AddBidCurrencyViewController: UIViewController {
     
     private let viewModel: AddBidCurrencyViewModelProtocol
     
@@ -69,6 +69,7 @@ class AddBidCurrencyViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -99,17 +100,7 @@ class AddBidCurrencyViewController: UIViewController {
         fromSelectCountryCurrencyView.addGestureRecognizer(fromTapGesture)
         toSelectCountryCurrencyView.addGestureRecognizer(toTapGesture)
         addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
-    }
-    
-    private func isEnabled() {
-        guard let text = ownedValueTextField.text else { return }
-        if !text.isEmpty && currency.0 != nil && currency.1 != nil {
-            addButton.isEnabled = true
-            addButton.backgroundColor = .darkBlue
-        } else {
-            addButton.isEnabled = false
-            addButton.backgroundColor = .lightGray
-        }
+        view.addSubviews([ownedValueLabel, ownedValueTextField, fromSelectCountryLabel, addButton, fromSelectCountryCurrencyView, toSelectCountryLabel, toSelectCountryCurrencyView])
     }
     
     @objc private func addButtonPressed() {
@@ -134,40 +125,85 @@ class AddBidCurrencyViewController: UIViewController {
         default:
             return
         }
-        
+    }
+    
+    private func isEnabled() {
+        guard let text = ownedValueTextField.text else { return }
+        switch !text.isEmpty && currency.0 != nil && currency.1 != nil {
+        case true:
+            addButton.isEnabled = true
+            addButton.backgroundColor = .darkBlue
+        case false:
+            addButton.isEnabled = false
+            addButton.backgroundColor = .lightGray
+        }
     }
     
     private func setupConstraints() {
-        view.addSubviews([ownedValueLabel, ownedValueTextField, fromSelectCountryLabel, addButton, fromSelectCountryCurrencyView, toSelectCountryLabel, toSelectCountryCurrencyView])
-        
         NSLayoutConstraint.activate([
-            ownedValueLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18),
-            ownedValueLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            ownedValueLabel.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: 18),
+            ownedValueLabel.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 20),
             
-            ownedValueTextField.topAnchor.constraint(equalTo: ownedValueLabel.bottomAnchor, constant: 9),
-            ownedValueTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            ownedValueTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            ownedValueTextField.topAnchor.constraint(
+                equalTo: ownedValueLabel.bottomAnchor,
+                constant: 9),
+            ownedValueTextField.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 20),
+            ownedValueTextField.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -20),
             ownedValueTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            fromSelectCountryLabel.topAnchor.constraint(equalTo: ownedValueTextField.bottomAnchor, constant: 18),
-            fromSelectCountryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            fromSelectCountryLabel.topAnchor.constraint(
+                equalTo: ownedValueTextField.bottomAnchor,
+                constant: 18),
+            fromSelectCountryLabel.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 20),
             
-            fromSelectCountryCurrencyView.topAnchor.constraint(equalTo: fromSelectCountryLabel.bottomAnchor, constant: 9),
-            fromSelectCountryCurrencyView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            fromSelectCountryCurrencyView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            fromSelectCountryCurrencyView.topAnchor.constraint(
+                equalTo: fromSelectCountryLabel.bottomAnchor,
+                constant: 9),
+            fromSelectCountryCurrencyView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 20),
+            fromSelectCountryCurrencyView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -20),
             fromSelectCountryCurrencyView.heightAnchor.constraint(equalToConstant: 87),
             
-            toSelectCountryLabel.topAnchor.constraint(equalTo: fromSelectCountryCurrencyView.bottomAnchor, constant: 18),
-            toSelectCountryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            toSelectCountryLabel.topAnchor.constraint(
+                equalTo: fromSelectCountryCurrencyView.bottomAnchor,
+                constant: 18),
+            toSelectCountryLabel.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 20),
             
-            toSelectCountryCurrencyView.topAnchor.constraint(equalTo: toSelectCountryLabel.bottomAnchor, constant: 9),
-            toSelectCountryCurrencyView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            toSelectCountryCurrencyView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            toSelectCountryCurrencyView.topAnchor.constraint(
+                equalTo: toSelectCountryLabel.bottomAnchor,
+                constant: 9),
+            toSelectCountryCurrencyView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 20),
+            toSelectCountryCurrencyView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -20),
             toSelectCountryCurrencyView.heightAnchor.constraint(equalToConstant: 87),
             
-            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -22),
-            addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            addButton.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -22),
+            addButton.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 20),
+            addButton.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -20),
             addButton.heightAnchor.constraint(equalToConstant: 42),
         ])
     }

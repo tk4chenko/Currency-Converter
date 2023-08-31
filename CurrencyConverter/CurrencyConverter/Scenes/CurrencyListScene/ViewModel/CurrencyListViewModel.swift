@@ -21,6 +21,7 @@ final class CurrencyListViewModel: CurrencyListViewModelProtocol {
     
     let currencyList: Observable<[LatestCurrency]?> = Observable(nil)
     let error: Observable<String?> = Observable(nil)
+    
     var filteredCurrencies: [LatestCurrency] = []
     
     init(networkService: CurrencyNetworkServiceProtocol, currencyManager: CurrencyManagerProtocol) {

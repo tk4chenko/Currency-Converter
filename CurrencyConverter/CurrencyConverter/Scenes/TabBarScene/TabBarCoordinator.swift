@@ -12,7 +12,7 @@ protocol TabBarCoordinatorProtocol: Coordinator {
     var tabBarController: UITabBarController { get }
 }
 
-class TabBarCoordinator: TabBarCoordinatorProtocol {
+final class TabBarCoordinator: TabBarCoordinatorProtocol {
 
     let tabBarController: UITabBarController
     

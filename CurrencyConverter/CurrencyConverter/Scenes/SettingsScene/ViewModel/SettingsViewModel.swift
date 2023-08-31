@@ -7,9 +7,17 @@
 
 import Foundation
 
-class SettingsViewModel {
+protocol SettingsViewModelProtocol {
+    var currencyList: [Currency] { get }
+    var selectedCurrency: Currency? { get }
+    func openSelectedCurrencyController()
+}
+
+final class SettingsViewModel: SettingsViewModelProtocol {
     
     let currencyManager: CurrencyManagerProtocol
+    
+    weak var coordinateDelegate: SettingsCoordinatorDelegate?
     
     var currencyList: [Currency] {
         currencyManager.currencyList
@@ -28,5 +36,7 @@ class SettingsViewModel {
     init(currencyManager: CurrencyManagerProtocol) {
         self.currencyManager = currencyManager
     }
-    
+    func openSelectedCurrencyController() {
+        coordinateDelegate?.openSelectedCurrencyController()
+    }
 }

@@ -7,17 +7,16 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+final class SettingsViewController: UIViewController {
     
-    var openSelectedCurrency: (()->Void)?
-    
-    private let viewModel: SettingsViewModel
+    private let viewModel: SettingsViewModelProtocol
 
-    init(viewModel: SettingsViewModel) {
+    init(viewModel: SettingsViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -40,6 +39,7 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        view.addSubview(tableView)
     }
     
     override func viewWillLayoutSubviews() {
@@ -48,7 +48,6 @@ class SettingsViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -56,7 +55,6 @@ class SettingsViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-    
 }
 
 extension SettingsViewController: UITableViewDataSource {
@@ -71,12 +69,10 @@ extension SettingsViewController: UITableViewDataSource {
         cell.configureCell(selectedCurrency)
         return cell
     }
-    
-    
 }
 
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        openSelectedCurrency?()
+        viewModel.openSelectedCurrencyController()
     }
 }

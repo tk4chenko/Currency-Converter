@@ -43,6 +43,7 @@ class WalletViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -69,6 +70,7 @@ class WalletViewController: UIViewController {
         navigationItem.rightBarButtonItems = [firstButton, secondButton]
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
+        view.addSubviews([tableView, loadingIndicator])
     }
     
     @objc private func searchPressed() {
@@ -84,7 +86,6 @@ class WalletViewController: UIViewController {
             if bids != nil {
                 DispatchQueue.main.async {
                     self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.removeFromSuperview()
                     self.tableView.reloadData()
                 }
             }
@@ -92,7 +93,6 @@ class WalletViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        view.addSubviews([tableView, loadingIndicator])
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(
                 equalTo: view.topAnchor),
@@ -103,14 +103,10 @@ class WalletViewController: UIViewController {
             tableView.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor),
             
-            loadingIndicator.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor),
-            loadingIndicator.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor),
-            loadingIndicator.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor),
-            loadingIndicator.bottomAnchor.constraint(
-                equalTo: view.bottomAnchor)
+            loadingIndicator.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor),
+            loadingIndicator.centerXAnchor.constraint(
+                equalTo: view.centerXAnchor)
         ])
     }
 }
@@ -176,4 +172,3 @@ extension WalletViewController: UISearchResultsUpdating {
     }
 
 }
-

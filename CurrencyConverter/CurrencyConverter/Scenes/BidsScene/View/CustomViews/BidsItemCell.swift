@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BidsItemCell: UITableViewCell, IdentifiableCell {
+final class BidsItemCell: UITableViewCell, IdentifiableCell {
     
     private let fromFlagImagView = UIImageView(
         image: UIImage(named: "default"),

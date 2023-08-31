@@ -14,7 +14,7 @@ protocol AddOwnedCurrencyViewModelProtocol {
     func popToAddOwnedCurrencyController(with currency: Currency)
 }
 
-class AddOwnedCurrencyViewModel: AddOwnedCurrencyViewModelProtocol {
+final class AddOwnedCurrencyViewModel: AddOwnedCurrencyViewModelProtocol {
     
     private let realmManager: RealmManagerProtocol
     private let networkServise: CurrencyNetworkService
@@ -33,15 +33,6 @@ class AddOwnedCurrencyViewModel: AddOwnedCurrencyViewModelProtocol {
         }
     }
     
-    private func getPair(fromCode: String, toCode: String, amount: Float, completion: @escaping ((PairResponse)->Void)) async {
-        do {
-            let response: PairResponse = try await networkServise.getPair(with: (fromCode, toCode), amount: amount)
-            completion(response)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
     func openSelectedCurrencyController(with currency: Currency?) {
         coordinatorDelegate?.openSelectedCurrencyController(with: currency)
     }
@@ -53,5 +44,13 @@ class AddOwnedCurrencyViewModel: AddOwnedCurrencyViewModelProtocol {
     func popToAddOwnedCurrencyController(with currency: Currency) {
         coordinatorDelegate?.popToAddOwnedCurrencyController(with: currency)
     }
+    
+    private func getPair(fromCode: String, toCode: String, amount: Float, completion: @escaping (PairResponse)->Void) async {
+        do {
+            let response: PairResponse = try await networkServise.getPair(with: (fromCode, toCode), amount: amount)
+            completion(response)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
-

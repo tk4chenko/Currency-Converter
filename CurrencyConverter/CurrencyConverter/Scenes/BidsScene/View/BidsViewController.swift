@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BidsViewController: UIViewController {
+final class BidsViewController: UIViewController {
     
     private var viewModel: BidsViewModelProtocol
     
@@ -42,6 +42,7 @@ class BidsViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -69,6 +70,7 @@ class BidsViewController: UIViewController {
         navigationItem.rightBarButtonItems = [firstButton, secondButton]
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
+        view.addSubviews([tableView, loadingIndicator])
     }
     
     private func setupBindigs() {
@@ -76,7 +78,6 @@ class BidsViewController: UIViewController {
             if bids != nil {
                 DispatchQueue.main.async {
                     self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.removeFromSuperview()
                     self.tableView.reloadData()
                 }
             }
@@ -92,25 +93,21 @@ class BidsViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        view.addSubviews([tableView, loadingIndicator])
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            loadingIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            loadingIndicator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loadingIndicator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            loadingIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            
+            loadingIndicator.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor),
+            loadingIndicator.centerXAnchor.constraint(
+                equalTo: view.centerXAnchor)
         ])
     }
-    
 }
 
 extension BidsViewController: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.filteredBids.count
     }
@@ -122,31 +119,25 @@ extension BidsViewController: UITableViewDataSource {
         cell.setupCell(with: bid)
         return cell
     }
-    
-    
 }
 
 extension BidsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            
             let bid = self.viewModel.filteredBids[indexPath.row]
             self.viewModel.deleteBid(bid)
             self.viewModel.loadData()
         }
-        
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         return configuration
     }
 }
 
 extension BidsViewController: UISearchResultsUpdating {
-    
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchQuery = searchController.searchBar.text?.lowercased() else {
             return
         }
-        
         if searchQuery.isEmpty {
             viewModel.filteredBids = viewModel.bids.value ?? []
         } else {
@@ -156,6 +147,4 @@ extension BidsViewController: UISearchResultsUpdating {
         }
         tableView.reloadData()
     }
-    
 }
-

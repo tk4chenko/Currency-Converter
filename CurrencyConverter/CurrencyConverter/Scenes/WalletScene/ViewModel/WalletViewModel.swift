@@ -16,11 +16,13 @@ protocol WalletViewModelProtocol {
     func openAddOwnedCurrencyController()
 }
 
-class WalletViewModel: WalletViewModelProtocol {
+final class WalletViewModel: WalletViewModelProtocol {
     
     private let realmManager: RealmManagerProtocol
     
-    weak var coordinatorDelegate: WalletControllerCoordinatorDelegate?
+    let wallets: Observable<[Wallet]?> = Observable(nil)
+    
+    var filteredCurrencies: [Wallet] = []
     
     var totalBalance: Float = 0 {
         didSet {
@@ -28,8 +30,7 @@ class WalletViewModel: WalletViewModelProtocol {
         }
     }
     
-    let wallets: Observable<[Wallet]?> = Observable(nil)
-    var filteredCurrencies: [Wallet] = []
+    weak var coordinatorDelegate: WalletViewCoordinatorDelegate?
 
     init(realmManager: RealmManagerProtocol) {
         self.realmManager = realmManager

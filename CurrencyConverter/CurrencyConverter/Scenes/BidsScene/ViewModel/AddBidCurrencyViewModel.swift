@@ -13,7 +13,7 @@ protocol AddBidCurrencyViewModelProtocol {
     func backToPrevious()
 }
 
-class AddBidCurrencyViewModel: AddBidCurrencyViewModelProtocol {
+final class AddBidCurrencyViewModel: AddBidCurrencyViewModelProtocol {
     
     private let realmManager: RealmManagerProtocol
     private let networkServise: CurrencyNetworkService
@@ -32,15 +32,6 @@ class AddBidCurrencyViewModel: AddBidCurrencyViewModelProtocol {
         }
     }
     
-    private func getPair(fromCode: String, toCode: String, amount: Float, completion: @escaping ((PairResponse)->Void)) async {
-        do {
-            let response: PairResponse = try await networkServise.getPair(with: (fromCode, toCode), amount: amount)
-            completion(response)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
     func openSelectedCurrencyController(with currency: Currency?) {
         coordinatorDelegate?.openSelectedCurrencyController(with: currency)
     }
@@ -49,4 +40,12 @@ class AddBidCurrencyViewModel: AddBidCurrencyViewModelProtocol {
         coordinatorDelegate?.popViewController()
     }
     
+    private func getPair(fromCode: String, toCode: String, amount: Float, completion: @escaping ((PairResponse)->Void)) async {
+        do {
+            let response: PairResponse = try await networkServise.getPair(with: (fromCode, toCode), amount: amount)
+            completion(response)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }

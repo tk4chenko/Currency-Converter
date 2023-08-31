@@ -43,7 +43,7 @@ extension HTTPClient {
             switch response.statusCode {
             case 200...299:
                 guard let decodedResponse = try? decoder.decode(T.self, from: data) else {
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "Failed to decode response data"))
+                    throw URLError(.cannotDecodeContentData)
                 }
                 return decodedResponse
             default:

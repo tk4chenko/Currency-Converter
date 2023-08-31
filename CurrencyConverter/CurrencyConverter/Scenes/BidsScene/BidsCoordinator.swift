@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol BidsControllerCoordinatorDelegate: AnyObject {
+protocol BidsViewCoordinatorDelegate: AnyObject {
     func openAddBidCurrencyController()
 }
 
@@ -17,7 +17,7 @@ protocol AddDidCoordinatorDelegate: AnyObject {
     func popToAddOwnedCurrencyController(with currency: Currency)
 }
 
-typealias BidsCoordinatorDelegate = BidsControllerCoordinatorDelegate & AddDidCoordinatorDelegate
+typealias BidsCoordinatorDelegate = BidsViewCoordinatorDelegate & AddDidCoordinatorDelegate
 
 class BidsCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
@@ -37,10 +37,15 @@ class BidsCoordinator: Coordinator {
         let viewController = BidsViewController(viewModel: viewModel)
         viewController.addNavItemTitle(text: "Bids", font: .montserratSemibold, fontSize: 17)
         viewController.navigationItem.backButtonTitle = ""
-        navigationController?.tabBarItem = UITabBarItem(title: nil,
-                                                        image: TabBarItems.bids.image,
-                                                        selectedImage: nil)
-        navigationController?.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 8)
+        navigationController?.tabBarItem = UITabBarItem(
+            title: nil,
+            image: TabBarItems.bids.image,
+            selectedImage: nil)
+        navigationController?.tabBarItem.imageInsets = UIEdgeInsets(
+            top: 0,
+            left: -8,
+            bottom: 0,
+            right: 8)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -73,20 +78,18 @@ extension BidsCoordinator: BidsCoordinatorDelegate {
     }
     
     func popToAddOwnedCurrencyController(with currency: Currency) {
-        if let viewControllers = navigationController?.viewControllers {
-            for viewController in viewControllers {
-                if let addBidController = viewController as? AddBidCurrencyViewController {
-                    if let direction = addBidController.direction {
-                        switch direction {
-                        case .from:
-                            addBidController.currency.0 = currency
-                        case .to:
-                            addBidController.currency.1 = currency
-                        }
-                    }
-                    navigationController?.popToViewController(addBidController, animated: true)
-                    break
+        guard let viewControllers = navigationController?.viewControllers else { return }
+        for viewController in viewControllers {
+            if let addBidController = viewController as? AddBidCurrencyViewController {
+                guard let direction = addBidController.direction else { return }
+                switch direction {
+                case .from:
+                    addBidController.currency.0 = currency
+                case .to:
+                    addBidController.currency.1 = currency
                 }
+                navigationController?.popToViewController(addBidController, animated: true)
+                break
             }
         }
     }

@@ -47,6 +47,7 @@ final class CurrencyListViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -75,6 +76,7 @@ final class CurrencyListViewController: UIViewController {
         errorView.retryButton.addTarget(self, action: #selector(retryPressed), for: .touchUpInside)
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
+        view.addSubviews([tableView, errorView, loadingIndicator])
     }
     
     @objc private func retryPressed() {
@@ -91,11 +93,12 @@ final class CurrencyListViewController: UIViewController {
         viewModel.currencyList.bind { [weak self] result in
             guard let self else { return }
             if result != nil {
-                DispatchQueue.main.async {
-                    self.errorView.isHidden = true
-                    self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.removeFromSuperview()
-                    self.tableView.reloadData()
+                Task {
+                    await MainActor.run {
+                        self.errorView.isHidden = true
+                        self.loadingIndicator.stopAnimating()
+                        self.tableView.reloadData()
+                    }
                 }
             }
         }
@@ -103,17 +106,17 @@ final class CurrencyListViewController: UIViewController {
         viewModel.error.bind { [weak self] result in
             guard let self else { return }
             if result != nil {
-                DispatchQueue.main.async {
-                    self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.removeFromSuperview()
-                    self.errorView.isHidden = false
+                Task {
+                    await MainActor.run {
+                        self.loadingIndicator.stopAnimating()
+                        self.errorView.isHidden = false
+                    }
                 }
             }
         }
     }
     
     private func setupConstraints() {
-        view.addSubviews([tableView, errorView, loadingIndicator])
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(
                 equalTo: view.topAnchor),
@@ -124,14 +127,10 @@ final class CurrencyListViewController: UIViewController {
             tableView.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor),
             
-            loadingIndicator.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor),
-            loadingIndicator.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor),
-            loadingIndicator.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor),
-            loadingIndicator.bottomAnchor.constraint(
-                equalTo: view.bottomAnchor),
+            loadingIndicator.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor),
+            loadingIndicator.centerXAnchor.constraint(
+                equalTo: view.centerXAnchor),
             
             errorView.centerXAnchor.constraint(
                 equalTo: view.centerXAnchor),

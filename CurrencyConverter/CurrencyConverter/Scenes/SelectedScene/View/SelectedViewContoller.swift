@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelectedViewController: UIViewController {
+final class SelectedViewController: UIViewController {
     
     var backToPrevious: ((Currency?) -> Void)?
     
@@ -37,23 +37,30 @@ class SelectedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        view.addSubview(tableView)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         setupConstraints()
     }
     
     private func setupConstraints() {
-        view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.topAnchor.constraint(
+                equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(
+                equalTo: view.bottomAnchor)
         ])
     }
-    
-    
 }
 
-extension SelectedViewController: UITableViewDataSource, UITableViewDelegate {
+extension SelectedViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.currencyList.count
     }
@@ -71,6 +78,9 @@ extension SelectedViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configureCell(currency, isChecked: isChecked)
         return cell
     }
+}
+
+extension SelectedViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isSaved {

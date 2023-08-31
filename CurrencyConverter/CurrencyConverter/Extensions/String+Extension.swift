@@ -28,9 +28,9 @@ extension String {
         return sorted[0]
     }
 
-    private func findMatchingSymbol(localeID: String, currencyCode: String) -> String? {
+    func findMatchingSymbol(localeID: String, currencyCode: String) -> String? {
         let locale = Locale(identifier: localeID as String)
-        guard let code = locale.currency?.identifier else {
+        guard let code = locale.currencyCode else {
             return nil
         }
         if code != currencyCode {
@@ -42,7 +42,7 @@ extension String {
         return symbol
     }
 
-    private func sortAscByLength(list: [String]) -> [String] {
+    func sortAscByLength(list: [String]) -> [String] {
         return list.sorted(by: { $0.count < $1.count })
     }
 
