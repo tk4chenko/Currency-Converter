@@ -25,6 +25,7 @@ class SettingsCoordinator: Coordinator {
     
     func start() {
         let viewModel = SettingsViewModel(currencyManager: CurrencyManager())
+        viewModel.coordinateDelegate = self
         let viewController = SettingsViewController(viewModel: viewModel)
         viewController.addNavItemTitle(text: "Settings", font: .montserratSemibold, fontSize: 17)
         viewController.navigationItem.backButtonTitle = ""
